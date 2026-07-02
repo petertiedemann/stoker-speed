@@ -9,18 +9,10 @@ rate, decode rate, and TTFT against any OpenAI-compatible HTTP endpoint.
 |------|-------|------------|-------------|--------------|
 | `llama-bench` | No (llama.cpp C++ only) | — | Random tokens | Token continuations |
 | `vllm bench serve` | Yes | Partial¹ | Random tokens | Token continuations |
-| [llama-benchy](https://github.com/eugr/llama-benchy) | Yes | Yes² | Gutenberg book text | Book text continuations |
-| **stoker-speed** | Yes | Yes | Dracula (real lit.) | **German translation** |
+| [llama-benchy](https://github.com/eugr/llama-benchy) | Yes | Yes | Gutenberg book text | Book text continuations |
+| **stoker-speed** | Yes | Yes | Dracula | **German translation** |
 
-¹ vLLM bench measures TTFT as time-to-first-chunk, not time-to-first-content-token.  
-² llama-benchy is excellent — sweeps, concurrency, prefix-cache measurement. If you
-need those features use it. stoker-speed is for quick A/B tests with a realistic
-translation workload.
-
-**The unique bit:** stoker-speed asks the model to *translate* Dracula into German.
-That means both input and output are real-world text — not random tokens and not
-simple next-token prediction.  This matters for engines where output quality
-affects generation patterns (MTP/speculative decoding).
+[llama-benchy](https://github.com/eugr/llama-benchy) is the more complete benchmark tool and is honestly the better choice in many cases. `stoker-speed`'s  main justification is simplicity and as a way of getting a second opinion.
 
 ## Install
 
@@ -45,9 +37,6 @@ python translate_bench.py -c 32000 -o 8192 http://10.0.0.1:8000 qwen3.6-27b
 
 # JSON output for scripting
 python translate_bench.py --json -n 10 > results.json
-
-# Reproducible runs
-python translate_bench.py --seed 42
 ```
 
 ### Full options
